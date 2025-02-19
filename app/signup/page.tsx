@@ -12,9 +12,11 @@ export default function SignUp() {
   const [register, { loading, error }] = useMutation(REGISTER);
   const router = useRouter();
 
-  const handleSubmit = async () => {
-    await register({ variables: { username, password } });
-    await router.push("/login");
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const response = await register({ variables: { username, password } });
+    localStorage.setItem("token", response.data.register.token);
+    await router.push("/");
   };
 
   return (

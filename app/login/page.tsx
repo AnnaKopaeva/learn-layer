@@ -12,7 +12,8 @@ export default function Login() {
   const [login, { loading, error }] = useMutation(LOGIN);
   const router = useRouter();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     const response = await login({ variables: { username, password } });
     localStorage.setItem("token", response.data.login.token);
     await router.push("/");

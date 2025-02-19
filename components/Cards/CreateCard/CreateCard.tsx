@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import CreateCardModal from "@/components/Cards/CreateCardModal";
 import Modal from "@/components/Modal";
+import Button from "@/components/Button";
 import { Card } from "@/types/Card";
 import { CREATE_CARD } from "@/mutation/Card";
 import { updateCacheAfterCreate } from "@/utils/updateCache";
@@ -37,12 +38,7 @@ export default function CreateCard() {
 
   return (
     <>
-      <button
-        onClick={toggleModal}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
-      >
-        Create
-      </button>
+      <Button onClick={toggleModal}>Create card</Button>
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
         <CreateCardModal
           onSubmit={handleSubmit}
