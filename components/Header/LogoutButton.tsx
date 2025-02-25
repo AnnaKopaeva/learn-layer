@@ -1,11 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useStorage } from "@/context";
 
 export default function LogoutButton() {
   const router = useRouter();
+  const { removeItem } = useStorage();
 
   const logout = () => {
-    localStorage.removeItem("token");
+    removeItem("token");
     router.push("/login");
   };
 

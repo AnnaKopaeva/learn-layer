@@ -1,75 +1,106 @@
 "use client";
 
-import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { REGISTER } from "@/mutation/Auth";
+import { SIGN_UP } from "@/mutation/Auth";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useStorage } from "@/context";
+import InputField from "@/components/InputField";
+import { Button } from "@/components/Button";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema } from "./validation";
+
+interface SignUpState {
+  username: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export default function SignUp() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [register, { loading, error }] = useMutation(REGISTER);
+  const [signup, { loading, error }] = useMutation(SIGN_UP);
   const router = useRouter();
+  const { setItem } = useStorage();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpState>({
+    defaultValues: {
+      username: "",
+      password: "",
+      confirmPassword: "",
+    },
+    resolver: yupResolver(schema),
+  });
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    const response = await register({ variables: { username, password } });
-    localStorage.setItem("token", response.data.register.token);
-    await router.push("/");
+  const onSubmit: SubmitHandler<SignUpState> = async (data) => {
+    const { username, password } = data;
+    try {
+      const response = await signup({ variables: { username, password } });
+      setItem("token", response.data.signup.token);
+      await router.push("/");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-6 rounded shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
           Sign Up
         </h2>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="username"
-          >
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
+        <Controller
+          name="username"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <InputField
+              {...field}
+              id="username"
+              label="Username"
+              type="text"
+              error={errors.username}
+            />
+          )}
+        />
+        <Controller
+          name="password"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <InputField
+              {...field}
+              id="password"
+              label="Password"
+              type="password"
+              error={errors.password}
+            />
+          )}
+        />
+        <Controller
+          name="confirmPassword"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <InputField
+              {...field}
+              id="confirmPassword"
+              label="Confirm password"
+              type="password"
+              error={errors.confirmPassword}
+            />
+          )}
+        />
         {error && (
           <p className="text-red-500 text-xs italic mb-4">{error.message}</p>
         )}
         <div className="flex items-center justify-center">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            {loading ? "Loading..." : "Sign Up"}
-          </button>
+          <Button type="submit" text="Sign Up" loading={loading} />
         </div>
         <div className="mt-4 text-center">
           <Link href="/login">

@@ -1,22 +1,27 @@
 import React from "react";
 
 interface ButtonProps {
+  text: string;
+  type?: "button" | "submit";
+  loading?: boolean;
   className?: string;
-  onClick: () => void;
-  children: React.ReactNode;
+  onClick?: () => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
+  text,
   className = "",
+  type = "button",
+  loading,
   onClick,
-  children,
 }) => {
   return (
     <button
+      type={type}
+      className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${className}`}
       onClick={onClick}
-      className={`bg-gradient-to-r from-blue-500 via-violet-600 to-purple-700 hover:from-blue-600 hover:via-violet-700 hover:to-purple-800 text-white font-bold py-2 px-4 rounded ${className}`}
     >
-      {children}
+      {loading ? "Loading..." : text}
     </button>
   );
 };

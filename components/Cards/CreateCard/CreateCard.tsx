@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import CreateCardModal from "@/components/Cards/CreateCardModal";
+import CreateCardModal from "@/components/Cards/CreateCard/CreateCardModal";
 import Modal from "@/components/Modal";
-import Button from "@/components/Button";
+import { GradientButton } from "@/components/Button";
 import { Card } from "@/types/Card";
 import { CREATE_CARD } from "@/mutation/Card";
 import { updateCacheAfterCreate } from "@/utils/updateCache";
@@ -38,7 +38,7 @@ export default function CreateCard() {
 
   return (
     <>
-      <Button onClick={toggleModal}>Create card</Button>
+      <GradientButton onClick={toggleModal}>Create card</GradientButton>
       <Modal isOpen={isModalOpen} onClose={toggleModal}>
         <CreateCardModal
           onSubmit={handleSubmit}

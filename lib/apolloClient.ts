@@ -8,7 +8,8 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { redirect } from "next/navigation";
 
-const API_URL = "https://learn-layer-backend-production.up.railway.app/graphql";
+// const API_URL = "https://learn-layer-backend-production.up.railway.app/graphql";
+const API_URL = "http://localhost:4000/graphql";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
