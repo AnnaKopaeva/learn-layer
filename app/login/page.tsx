@@ -61,7 +61,6 @@ export default function Login() {
           render={({ field }) => (
             <InputField
               {...field}
-              id="username"
               label="Username"
               type="text"
               error={errors.username}
@@ -75,7 +74,6 @@ export default function Login() {
           render={({ field }) => (
             <InputField
               {...field}
-              id="password"
               label="Password"
               type="password"
               error={errors.password}

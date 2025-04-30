@@ -61,7 +61,6 @@ export default function SignUp() {
           render={({ field }) => (
             <InputField
               {...field}
-              id="username"
               label="Username"
               type="text"
               error={errors.username}
@@ -75,7 +74,6 @@ export default function SignUp() {
           render={({ field }) => (
             <InputField
               {...field}
-              id="password"
               label="Password"
               type="password"
               error={errors.password}
@@ -89,7 +87,6 @@ export default function SignUp() {
           render={({ field }) => (
             <InputField
               {...field}
-              id="confirmPassword"
               label="Confirm password"
               type="password"
               error={errors.confirmPassword}

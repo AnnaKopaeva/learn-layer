@@ -1,8 +1,8 @@
 "use client";
 import { FieldError } from "react-hook-form";
+import { useId } from "react";
 
 interface InputFieldProps {
-  id: string;
   name: string;
   label: string;
   placeholder?: string;
@@ -11,13 +11,13 @@ interface InputFieldProps {
 }
 
 export default function InputField({
-  id,
   label,
   type,
   placeholder,
   error,
   ...props
 }: InputFieldProps) {
+  const id = useId();
   return (
     <div className="mb-2">
       <label
