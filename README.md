@@ -13,7 +13,7 @@ CardFlow is a web application that allows users to manage their own list of card
 ## Hosted URL
 
 You can access the hosted application at the following URL:
-[CardFlow on CodeSandbox](https://codesandbox.io/p/sandbox/github/AnnaKopaeva/learn-layer)
+[CardFlow](https://learn-layer.vercel.app/login)
 
 ## Getting Started
 
